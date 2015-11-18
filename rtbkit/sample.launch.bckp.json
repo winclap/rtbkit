@@ -63,8 +63,7 @@
                     "root": ".",
                     "path": "build/x86_64/bin/router_runner",
                     "arg": [
-                        "-B", "rtbkit/sample.bootstrap.json",
-                        "--bidder", "rtbkit/sample.http_bidder-config.json"
+                        "-B", "rtbkit/sample.bootstrap.json"
                     ],
                     "log": true
                 },
@@ -75,8 +74,16 @@
                     "arg": [
                         "-B", "rtbkit/sample.bootstrap.json",
                         "--win-seconds", "3600.0", 
-                        "--auction-seconds", "900.0",
-                        "--bidder", "rtbkit/sample.http_bidder-config.json"
+                        "--auction-seconds", "900.0"
+                    ],
+                    "log": true
+                },
+                {
+                    "name": "fixed-price-agent",
+                    "root": ".",
+                    "path": "build/x86_64/bin/bidding_agent_ex",
+                    "arg": [
+                        "-B", "rtbkit/sample.bootstrap.json"
                     ],
                     "log": true
                 }
@@ -84,3 +91,4 @@
         }
     ]
 }
+
