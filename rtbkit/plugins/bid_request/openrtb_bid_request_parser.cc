@@ -469,6 +469,19 @@ onDevice(OpenRTB::Device & device) {
     if(device.geo) {
         this->onGeo(*device.geo);
     }
+    
+    // Adding IAB device type to segments for filtering
+    if(device.devicetype.val != -1)
+        ctx.br->segments.add("device-type", device.devicetype.val);
+
+    // Adding device OS to segments for filtering
+    if(!device.os.empty())
+        ctx.br->segments.add("device-os", device.os.utf8String());
+        //ctx.br->segments.add("device-os", boost::to_lower_copy<std::string>(device.os.utf8String()));
+
+    // Adding IAB connection type to segments for filtering
+    if(device.connectiontype.val != -1)
+        ctx.br->segments.add("connection-type", device.connectiontype.val);
 }
 
 void
@@ -553,9 +566,10 @@ onUser(OpenRTB::User & user) {
     //    If not, we will use ip/ua hash
     //    Done onDevice()
     
-    /*if(user.yob.val != -1) {
-        // Nothing for now
-    }*/
+    // Adding user yob to segments for filtering
+    if(user.yob.val != -1) {
+        ctx.br->segments.add("user-yob", user.yob.val);
+    }
 
     if(!user.gender.empty()){
         if(user.gender.size() == 1) {
@@ -572,6 +586,9 @@ onUser(OpenRTB::User & user) {
                 LOG(OpenRTBBidRequestLogs::trace) << " br.user.gender : " << user.gender <<  
                                                      "is invalid. It should be either 'M' 'F' 'O' or null/empty" << endl;
             }
+            
+            // Adding user gender to segments for filtering
+            ctx.br->segments.add("user-gender", user.gender);
         } else {
             // TODO Validate if we accept "unknown" or "UNKNOWN" as gender.
             // According to the spec, unknown should be null (or empty).
